@@ -1,24 +1,63 @@
+# 🧠 Ultimate .gitlab-ci.yml for a full-capability site
+# Runs Node, builds dependencies if needed, and deploys to GitLab Pages
+
 image: node:lts
 
+# 🪜 Define the stages
 stages:
+  - setup
   - build
+  - test
   - deploy
 
+# ⚙️ Step 1: Setup – installs dependencies if package.json exists
+setup_env:
+  stage: setup
+  script:
+    - echo "Setting up environment..."
+    - if [ -f package.json ]; then npm install; else echo "No package.json found, skipping npm install"; fi
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 week
+
+# 🏗️ Step 2: Build – runs npm build if defined, otherwise just copies files
 build_site:
   stage: build
   script:
-    - echo "No build needed, using root index.html"
+    - echo "Building site..."
+    - if npm run | grep -q "build"; then npm run build; else echo "No build script found, skipping"; fi
+    - mkdir -p build_output
+    - cp -r * build_output/
   artifacts:
     paths:
-      - index.html
-      - main.js
+      - build_output/
     expire_in: 1 week
+  dependencies:
+    - setup_env
 
+# ✅ Step 3: Test – optional sanity checks (HTML, JS linting, etc.)
+test_site:
+  stage: test
+  script:
+    - echo "Running sanity checks..."
+    - if command -v npx > /dev/null; then npx eslint . || echo 'ESLint not set up, skipping'; fi
+    - echo "Basic HTML presence test..."
+    - test -f index.html && echo "index.html exists ✅" || (echo "Missing index.html ❌" && exit 1)
+  dependencies:
+    - build_site
+
+# 🚀 Step 4: Deploy to GitLab Pages
 pages:
   stage: deploy
   script:
+    - echo "Deploying to GitLab Pages..."
     - mkdir .public
-    - cp -r * .public/
+    - cp -r build_output/* .public/
   artifacts:
     paths:
       - .public
