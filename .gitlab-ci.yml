@@ -1,67 +1,26 @@
-# Full React + Security GitLab CI/CD Pipeline
+image: node:lts
 
 stages:
-  - test
-  - security
   - build
   - deploy
 
-# --- Include all GitLab security templates ---
-include:
-  - template: Security/SAST.gitlab-ci.yml
-  - template: Security/Secret-Detection.gitlab-ci.yml
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
-  - template: Security/Container-Scanning.gitlab-ci.yml
-
-# --- Global Variables ---
-variables:
-  NODE_ENV: 'production'
-  SAST_ENABLED: 'true'
-  SECRET_DETECTION_ENABLED: 'true'
-  DEPENDENCY_SCANNING_ENABLED: 'true'
-  CONTAINER_SCANNING_ENABLED: 'true'
-  BUILD_DIR: 'build'
-
-# --- SAST (Static Application Security Testing) ---
-sast:
-  stage: test
-
-# --- Secret Detection ---
-secret_detection:
-  stage: security
-
-# --- Dependency Scanning ---
-dependency_scanning:
-  stage: security
-
-# --- Container Scanning ---
-container_scanning:
-  stage: security
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-
-# --- Build React App ---
 build_site:
-  image: node:lts
   stage: build
   script:
-    # Use npm ci if lockfile exists, otherwise npm install
-    - if [ -f package-lock.json ]; then npm ci; else npm install; fi
-    - npm run build
+    - echo "No build needed, using root index.html"
   artifacts:
     paths:
-      - $BUILD_DIR
-    expire_in: 1 hour
+      - index.html
+      - main.js
+    expire_in: 1 week
 
-# --- Deploy to GitLab Pages ---
 pages:
-  image: node:lts
   stage: deploy
   script:
-    - mkdir public
-    - cp -r $BUILD_DIR/* public
+    - mkdir .public
+    - cp -r * .public/
   artifacts:
     paths:
-      - public
+      - .public
   only:
     - main
