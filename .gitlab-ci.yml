@@ -1,18 +1,65 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/user/application_security/secret_detection/pipeline/configure
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test
-- secret-detection
+  - test
+  - security
+  - build
+  - deploy
+
+# --- Include all GitLab security templates ---
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
+
+# --- Global Variables ---
+variables:
+  SAST_ENABLED: 'true'
+  SECRET_DETECTION_ENABLED: 'true'
+  DEPENDENCY_SCANNING_ENABLED: 'true'
+  CONTAINER_SCANNING_ENABLED: 'true'
+  NODE_ENV: 'production'
+  # You can tweak this if your build folder is named something else
+  BUILD_DIR: 'build'
+
+# --- SAST (Static Application Security Testing) ---
 sast:
   stage: test
-include:
-- template: Security/Secret-Detection.gitlab-ci.yml
-variables:
-  SECRET_DETECTION_ENABLED: 'true'
+
+# --- Secret Detection ---
 secret_detection:
-  stage: secret-detection
+  stage: security
+
+# --- Dependency Scanning ---
+dependency_scanning:
+  stage: security
+
+# --- Container Scanning (optional, safe even if no Dockerfile) ---
+container_scanning:
+  stage: security
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+# --- Build React Site ---
+build_site:
+  image: node:20
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - $BUILD_DIR
+    expire_in: 1 hour
+
+# --- Deploy to GitLab Pages ---
+pages:
+  image: node:20
+  stage: deploy
+  script:
+    - mkdir public
+    - cp -r $BUILD_DIR/* public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
