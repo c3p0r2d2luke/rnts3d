@@ -16,13 +16,3 @@ variables:
   SECRET_DETECTION_ENABLED: 'true'
 secret_detection:
   stage: secret-detection
-
-image: php:8.2
-
-pages:
-  script:
-    - mkdir public
-    - php index.php > public/index.html
-  artifacts:
-    paths:
-      - public
