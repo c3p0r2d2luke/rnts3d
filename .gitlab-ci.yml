@@ -1,7 +1,7 @@
-# 🌐 THE ULTIMATE CI PIPELINE
-# Supports Node, Python, PHP, Java, and static sites.
-# Automatically builds, tests, and deploys everything it detects.
-# (GitLab Pages deployment removed)
+# 🚀 UNIVERSAL BUILD + VERCEL DEPLOY PIPELINE
+# Works on GitLab, deploys to Vercel automatically.
+# Builds Node, Python, PHP, Java, and static sites.
+# Keeps all build outputs.
 
 image: ubuntu:latest
 
@@ -9,10 +9,14 @@ stages:
   - setup
   - build
   - test
+  - deploy
 
 variables:
   DEBIAN_FRONTEND: noninteractive
-  PUBLIC_DIR: .public
+  BUILD_DIR: build_output
+  VERCEL_ORG_ID: $VERCEL_ORG_ID
+  VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
+  VERCEL_TOKEN: $VERCEL_TOKEN
 
 before_script:
   - echo "🧩 Installing dependencies..."
@@ -43,19 +47,19 @@ setup_env:
       - node_modules/
     expire_in: 1 week
 
-# 🏗️ Stage 2: Build everything automatically
+# 🏗️ Stage 2: Build all projects
 build_all:
   stage: build
   script:
     - echo "🏗️ Building all detected projects..."
-    - mkdir -p build_output
+    - mkdir -p $BUILD_DIR
 
     # Node
     - if npm run | grep -q "build"; then echo "🛠️ Running npm build"; npm run build || true; fi
 
     # Python
     - if [ -f setup.py ]; then echo "🐍 Building Python package"; python3 setup.py build || true; fi
-    - if [ -d "static" ]; then echo "📂 Copying static assets"; cp -r static/* build_output/ || true; fi
+    - if [ -d "static" ]; then echo "📂 Copying static assets"; cp -r static/* $BUILD_DIR/ || true; fi
 
     # Java
     - if ls *.java 1> /dev/null 2>&1; then
@@ -63,42 +67,46 @@ build_all:
         mkdir -p java_build;
         javac -d java_build $(find . -name "*.java") || true;
         jar cf java_build/app.jar -C java_build . || true;
+        cp -r java_build/* $BUILD_DIR/ || true;
       fi
 
     # PHP
-    - if ls *.php 1> /dev/null 2>&1; then echo "🐘 PHP files detected, preparing build"; cp -r *.php build_output/ || true; fi
+    - if ls *.php 1> /dev/null 2>&1; then echo "🐘 Copying PHP files"; cp -r *.php $BUILD_DIR/ || true; fi
 
     # Static files
-    - if [ -d "public" ]; then echo "🌍 Found public folder, copying"; cp -r public/* build_output/ || true; fi
-    - if [ -f "index.html" ]; then cp index.html build_output/; fi
+    - if [ -d "public" ]; then echo "🌍 Found public folder, copying"; cp -r public/* $BUILD_DIR/ || true; fi
+    - if [ -f "index.html" ]; then cp index.html $BUILD_DIR/; fi
 
     - echo "✅ Build complete!"
   artifacts:
     paths:
-      - build_output/
+      - $BUILD_DIR/
     expire_in: 1 week
   dependencies:
     - setup_env
 
-# 🧪 Stage 3: Tests for every language
+# 🧪 Stage 3: Tests
 test_all:
   stage: test
   script:
-    - echo "🔍 Running all tests..."
-
-    # JS Lint
+    - echo "🔍 Running tests..."
     - if command -v npx > /dev/null; then npx eslint . || echo "⚠️ Skipping ESLint"; fi
-
-    # Python syntax
     - if ls *.py 1> /dev/null 2>&1; then python3 -m py_compile *.py || true; fi
-
-    # PHP syntax
     - if ls *.php 1> /dev/null 2>&1; then php -l *.php || true; fi
-
-    # Java compile test
     - if ls *.java 1> /dev/null 2>&1; then javac $(find . -name "*.java") || true; fi
-
-    # HTML presence
     - test -f index.html && echo "✅ index.html found" || echo "⚠️ No index.html"
-
     - echo "✅ Test stage complete!"
+
+# 🌐 Stage 4: Deploy to Vercel
+deploy_vercel:
+  stage: deploy
+  script:
+    - echo "🚀 Deploying to Vercel..."
+    - npm install -g vercel
+    - vercel --version
+    - vercel deploy --prebuilt --yes --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID --project=$VERCEL_PROJECT_ID --prod
+    - echo "🌍 Deployment to Vercel complete!"
+  only:
+    - main
+  dependencies:
+    - build_all
