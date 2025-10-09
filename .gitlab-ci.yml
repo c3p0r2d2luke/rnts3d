@@ -1,7 +1,7 @@
 # 🌐 THE ULTIMATE CI PIPELINE
 # Supports Node, Python, PHP, Java, and static sites.
 # Automatically builds, tests, and deploys everything it detects.
-# Works with GitLab Pages.
+# (GitLab Pages deployment removed)
 
 image: ubuntu:latest
 
@@ -9,7 +9,6 @@ stages:
   - setup
   - build
   - test
-  - deploy
 
 variables:
   DEBIAN_FRONTEND: noninteractive
@@ -103,18 +102,3 @@ test_all:
     - test -f index.html && echo "✅ index.html found" || echo "⚠️ No index.html"
 
     - echo "✅ Test stage complete!"
-
-# 🌐 Stage 4: Deploy to GitLab Pages
-pages:
-  stage: deploy
-  script:
-    - echo "🚀 Deploying everything to GitLab Pages..."
-    - mkdir -p $PUBLIC_DIR
-    - cp -r build_output/* $PUBLIC_DIR/ || true
-    - echo "<!-- Built on $(date) -->" >> $PUBLIC_DIR/index.html
-    - echo "🌐 Deployment complete!"
-  artifacts:
-    paths:
-      - $PUBLIC_DIR
-  only:
-    - main
