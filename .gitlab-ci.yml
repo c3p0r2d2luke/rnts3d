@@ -1,7 +1,7 @@
-# 🚀 UNIVERSAL BUILD + VERCEL DEPLOY PIPELINE
-# Works on GitLab, deploys to Vercel automatically.
+# 🌐 UNIVERSAL BUILD & TEST PIPELINE (Vercel-compatible)
 # Builds Node, Python, PHP, Java, and static sites.
-# Keeps all build outputs.
+# Works automatically when deployed through Vercel.
+# No manual tokens or CLI deploy required.
 
 image: ubuntu:latest
 
@@ -9,14 +9,10 @@ stages:
   - setup
   - build
   - test
-  - deploy
 
 variables:
   DEBIAN_FRONTEND: noninteractive
   BUILD_DIR: build_output
-  VERCEL_ORG_ID: $VERCEL_ORG_ID
-  VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
-  VERCEL_TOKEN: $VERCEL_TOKEN
 
 before_script:
   - echo "🧩 Installing dependencies..."
@@ -47,7 +43,7 @@ setup_env:
       - node_modules/
     expire_in: 1 week
 
-# 🏗️ Stage 2: Build all projects
+# 🏗️ Stage 2: Build all detected projects
 build_all:
   stage: build
   script:
@@ -89,24 +85,10 @@ build_all:
 test_all:
   stage: test
   script:
-    - echo "🔍 Running tests..."
+    - echo "🔍 Running all tests..."
     - if command -v npx > /dev/null; then npx eslint . || echo "⚠️ Skipping ESLint"; fi
     - if ls *.py 1> /dev/null 2>&1; then python3 -m py_compile *.py || true; fi
     - if ls *.php 1> /dev/null 2>&1; then php -l *.php || true; fi
     - if ls *.java 1> /dev/null 2>&1; then javac $(find . -name "*.java") || true; fi
     - test -f index.html && echo "✅ index.html found" || echo "⚠️ No index.html"
     - echo "✅ Test stage complete!"
-
-# 🌐 Stage 4: Deploy to Vercel
-deploy_vercel:
-  stage: deploy
-  script:
-    - echo "🚀 Deploying to Vercel..."
-    - npm install -g vercel
-    - vercel --version
-    - vercel deploy --prebuilt --yes --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID --project=$VERCEL_PROJECT_ID --prod
-    - echo "🌍 Deployment to Vercel complete!"
-  only:
-    - main
-  dependencies:
-    - build_all
