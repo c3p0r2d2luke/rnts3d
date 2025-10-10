@@ -1,170 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RNTS Custom 3D Printing</title>
-  <style>
-    :root {
-      --primary: #00ffc8;
-      --bg: #0a0f18;
-      --text: #e6eef8;
-      --card: #121a25;
-      --accent: #ff7a18;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    header {
-      background: linear-gradient(90deg, var(--accent), var(--primary));
-      color: #000;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      margin: 0;
-      font-weight: 700;
-    }
-    nav a {
-      color: #000;
-      text-decoration: none;
-      margin-left: 1.2rem;
-      font-weight: 600;
-      transition: opacity 0.3s;
-    }
-    nav a:hover { opacity: 0.7; }
-    main {
-      padding: 2rem;
-      max-width: 1100px;
-      margin: auto;
-    }
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-      background: radial-gradient(circle at top left, var(--accent), transparent 70%), radial-gradient(circle at bottom right, var(--primary), transparent 70%);
-      border-radius: 16px;
-      box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
-    }
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.1rem;
-      color: #c8d0e0;
-      max-width: 700px;
-      margin: auto;
-    }
-    .section {
-      margin-top: 4rem;
-    }
-    .section h3 {
-      border-left: 4px solid var(--accent);
-      padding-left: 0.6rem;
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-    }
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-    .card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0, 255, 200, 0.1);
-      transition: transform 0.3s;
-    }
-    .card:hover { transform: translateY(-6px); }
-    .card h4 {
-      color: var(--primary);
-      margin-top: 0.8rem;
-      font-size: 1.2rem;
-    }
-    footer {
-      margin-top: 4rem;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #aaa;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .contact {
-      text-align: center;
-    }
-    .contact a {
-      display: inline-block;
-      margin: 0.5rem;
-      padding: 0.6rem 1rem;
-      background: var(--accent);
-      color: #000;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    .contact a:hover { background: #ff9950; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R&T's Custom 3D Printing</title>
+    <link rel="icon" href="images/logo.ico" type="image/x-icon">
+<link rel="stylesheet" href="styles.css">
+        <script type='text/javascript' src='https://www.google.com/recaptcha/api.js?render=6Lcg93AqAAAAAKtD5rQ7doKEXXx4TT0QrltkRFdl&ver=3.0'></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>RNTS Custom 3D Printing</h1>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <h2>Turning Ideas Into Reality</h2>
-      <p>At RNTS Custom 3D Printing, we specialize in bringing your designs to life with precision 3D printing, modeling, and prototyping services. From concept to creation, we’ve got you covered.</p>
-    </section>
+<header>
+<div class="container">
+<h1>R&T's Custom 3D Printing</h1>
+<nav>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About Us</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact Us</a></li>
+<li><a href="faq.html">FAQs</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</header>
 
-    <section id="about" class="section">
-      <h3>About Us</h3>
-      <p>Founded by enthusiasts who love design and innovation, RNTS Custom 3D Printing offers affordable, high-quality prints for hobbyists, creators, and businesses. We take pride in fast turnaround times and excellent communication.</p>
-    </section>
+<section class="hero">
+<div class="hero-content">
+<h2>Where Custom Creations Come to Life</h2>
+<a href="contact.html" class="cta">Request a Custom Quote</a>
+</div>
+</section>
 
-    <section id="services" class="section">
-      <h3>Our Services</h3>
-      <div class="services">
-        <div class="card">
-          <h4>3D Printing</h4>
-          <p>High-resolution printing in PLA, PETG, ABS, and more. Perfect for models, prototypes, and functional parts.</p>
-        </div>
-        <div class="card">
-          <h4>3D Modeling</h4>
-          <p>Need a design created from scratch? Our modeling service can take your idea from sketch to printable 3D model.</p>
-        </div>
-        <div class="card">
-          <h4>Custom Orders</h4>
-          <p>Have something unique in mind? We’ll work with you to make sure it’s designed and printed exactly how you imagine it.</p>
-        </div>
-      </div>
-    </section>
+<section class="features">
+<div class="container">
+<h2>Why Choose Us?</h2>
+<div class="features-list">
+<div class="feature-item">
+<h3>High-Quality Prints</h3>
+<p>Precision and durability in every print.</p>
+</div>
+<div class="feature-item">
+<h3>Quick Turnaround</h3>
+<p>Get your prints fast without compromising quality.</p>
+</div>
+<div class="feature-item">
+<h3>Wide Range of Materials</h3>
+<p>Choose from PLA, ABS, PETG, and more.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <section id="contact" class="section contact">
-      <h3>Contact Us</h3>
-      <p>Got a project in mind? Let’s make it happen!</p>
-      <a href="mailto:rntscustom3dprinting@gmail.com">Email Us</a>
-      <a href="main.php" target="_blank">Visit Our New Site</a>
-    </section>
-  </main>
-
-  <footer>
-    © 2025 RNTS Custom 3D Printing · Designed with care 🧱
-  </footer>
+<footer>
+<div class="container">
+<p>&copy; 2025 R&T's Custom 3D Printing. All rights reserved.</p>
+</div>
+</footer>
 </body>
 </html>
