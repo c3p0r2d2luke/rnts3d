@@ -1,69 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; object-src 'none';">
-<link rel="canonical" href="https://rnts3d.vercel.app/index.html" >
-<meta name="sitecheckerpro-site-verification" content="00af34b7ae26a0ce72255bbfdeaff976">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RNTS Custom 3D Printing</title>
-    <link rel="icon" href="images/logo.ico" type="image/x-icon">
-<link rel="stylesheet" href="styles.css">
-        <script type='text/javascript' src='https://www.google.com/recaptcha/api.js?render=6Lcg93AqAAAAAKtD5rQ7doKEXXx4TT0QrltkRFdl&ver=3.0'></script>
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; object-src 'none';">
+  <link rel="canonical" href="https://rnts3d.vercel.app/index.html">
+  <meta name="sitecheckerpro-site-verification" content="00af34b7ae26a0ce72255bbfdeaff976">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RNTS Custom 3D Printing</title>
+  <link rel="icon" href="images/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+  <script type='text/javascript' src='https://www.google.com/recaptcha/api.js?render=6Lcg93AqAAAAAKtD5rQ7doKEXXx4TT0QrltkRFdl&ver=3.0'></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
 
 <header>
-<div class="container">
-<h1>RNTS Custom 3D Printing</h1>
-<nav>
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="about.html">About Us</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a href="portfolio.html">Portfolio</a></li>
-<li><a href="contact.html">Contact Us</a></li>
-<li><a href="faq.html">FAQs</a></li>
-</ul>
-</nav>
-</div>
-</div>
+  <div class="container">
+    <h1>RNTS Custom 3D Printing</h1>
+
+    <!-- 🔥 Responsive Menu -->
+    <nav>
+      <div class="menu-toggle" id="menu-toggle">☰</div>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="faq.html">FAQs</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
 
 <section class="hero">
-<div class="hero-content">
-<h2>Where Custom Creations Come to Life</h2>
-<a href="contact.html" class="cta">Request a Custom Quote</a>
-</div>
+  <div class="hero-content">
+    <h2>Where Custom Creations Come to Life</h2>
+    <a href="contact.html" class="cta">Request a Custom Quote</a>
+  </div>
 </section>
 
 <section class="features">
-<div class="container">
-<h2>Why Choose Us?</h2>
-<div class="features-list">
-<div class="feature-item">
-<h3>High-Quality Prints</h3>
-<p>Precision and durability in every print.</p>
-</div>
-<div class="feature-item">
-<h3>Quick Turnaround</h3>
-<p>Get your prints fast without compromising quality.</p>
-</div>
-<div class="feature-item">
-<h3>Wide Range of Materials</h3>
-<p>Choose from PLA, ABS, PETG, and more.</p>
-</div>
-</div>
-</div>
+  <div class="container">
+    <h2>Why Choose Us?</h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <h3>High-Quality Prints</h3>
+        <p>Precision and durability in every print.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Quick Turnaround</h3>
+        <p>Get your prints fast without compromising quality.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Wide Range of Materials</h3>
+        <p>Choose from PLA, ABS, PETG, and more.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
-<div class="container">
-<p>&copy; 2025 R&T's Custom 3D Printing. All rights reserved.</p>
-</div>
+  <div class="container">
+    <p>&copy; 2025 R&T's Custom 3D Printing. All rights reserved.</p>
+  </div>
 </footer>
+
+<!-- 🔧 Hamburger Menu Script -->
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("menu");
+
+  toggle.addEventListener("click", () => {
+    menu.classList.toggle("show");
+  });
+</script>
+
 </body>
 </html>
