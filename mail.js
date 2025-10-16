@@ -1,5 +1,5 @@
 (function(){
-    emailjs.init("Sy9xnveExMIv1B0rA"); // 👈 replace with your EmailJS Public Key
+    emailjs.init("Sy9xnveExMIv1B0rA");
   })();
   
   function selectColor(el, color) {
@@ -9,11 +9,12 @@
     document.getElementById("selected-color-text").innerText = "You selected: " + color;
   }
   
-  document.getElementById("form-status").innerText = "📤 Sending...";
-
   async function sendMail(e) {
     e.preventDefault();
     const form = e.target;
+  
+    // ✅ Show status here instead
+    document.getElementById("form-status").innerText = "📤 Sending...";
   
     // Send both emails independently
     const mainEmail = emailjs.sendForm("service_8abmpmo", "template_jkvewo2", form)
@@ -33,3 +34,4 @@
     document.querySelectorAll(".color-option").forEach(opt => opt.classList.remove("selected"));
     document.getElementById("selected-color-text").innerText = "";
   }
+  
