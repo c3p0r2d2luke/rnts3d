@@ -9,6 +9,8 @@
     document.getElementById("selected-color-text").innerText = "You selected: " + color;
   }
   
+  document.getElementById("form-status").innerText = "📤 Sending...";
+
   async function sendMail(e) {
     e.preventDefault();
     const form = e.target;
