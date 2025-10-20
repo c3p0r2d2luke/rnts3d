@@ -9,7 +9,6 @@
   <title>RNTS Custom 3D Printing</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="images/logo.ico" type="image/x-icon">
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -93,11 +92,6 @@
           <label for="modelFile">Upload your 3D file (.stl, .obj, .glb, .gltf):</label>
           <input type="file" id="modelFile" accept=".stl,.obj,.glb,.gltf" onchange="previewModel(event)">
         </div>
-
-        <div class="model-preview" id="modelPreview">
-          <h3>Model Preview:</h3>
-          <model-viewer id="viewer" camera-controls auto-rotate></model-viewer>
-        </div>
         <!-- 🔼 END NEW SECTION -->
 
         <button type="submit">Submit</button>
@@ -116,21 +110,5 @@
 
 <script src="menu.js"></script>
 
-<script>
-function previewModel(event) {
-  const file = event.target.files[0];
-  const preview = document.getElementById('modelPreview');
-  const viewer = document.getElementById('viewer');
-
-  if (!file) return;
-
-  // Create blob URL and show model-viewer
-  const url = URL.createObjectURL(file);
-  viewer.src = url;
-  preview.style.display = 'block';
-}
-
-// Keep your existing sendMail() logic in mail.js
-</script>
 </body>
 </html>
