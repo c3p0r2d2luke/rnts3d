@@ -3,27 +3,38 @@
 <head>
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
-<link rel="canonical" href="https://rnts3d.vercel.app/contact.html" >
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RNTS Custom 3D Printing</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="images/logo.ico" type="image/x-icon">
-<script type='text/javascript' src='https://www.google.com/recaptcha/api.js?render=6Lcg93AqAAAAAKtD5rQ7doKEXXx4TT0QrltkRFdl&ver=3.0'></script>
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="canonical" href="https://rnts3d.vercel.app/contact.html" >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RNTS Custom 3D Printing</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="images/logo.ico" type="image/x-icon">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script src="mail.js"></script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="mail.js"></script>
 
+  <style>
+    .model-preview {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+    model-viewer {
+      width: 300px;
+      height: 300px;
+      background-color: #f3f3f3;
+      border-radius: 10px;
+      margin: auto;
+    }
+  </style>
 </head>
-<body>
 
-<!-- Header -->
+<body>
 <header>
   <div class="container">
     <h1>RNTS Custom 3D Printing</h1>
-
     <nav>
       <div class="menu-toggle" id="menu-toggle">☰</div>
       <ul id="menu">
@@ -38,8 +49,6 @@
   </div>
 </header>
 
-
-<!-- Main Content -->
 <main>
   <section class="contact">
     <div class="container">
@@ -55,15 +64,6 @@
         <div class="form-group">
           <label>Choose a Color:</label>
           <div class="color-picker">
-            <!--<div class="color-option" onclick="selectColor(this, 'Red')">
-              <img src="https://dummyimage.com/70x70/ff0000/ff0000.png" alt="Red">
-            </div>
-            <div class="color-option" onclick="selectColor(this, 'Blue')">
-              <img src="https://dummyimage.com/70x70/0000ff/0000ff.png" alt="Blue">
-            </div>
-            <div class="color-option" onclick="selectColor(this, 'Green')">
-              <img src="https://dummyimage.com/70x70/00ff00/00ff00.png" alt="Green">
-            </div>-->
             <div class="color-option" onclick="selectColor(this, 'Black')">
               <img src="https://dummyimage.com/70x70/000000/000000.png" alt="Black">
             </div>
@@ -88,9 +88,17 @@
           <input type="email" id="email" name="user_email" required>
         </div>
 
+        <!-- 🔽 NEW 3D FILE UPLOAD SECTION -->
         <div class="form-group">
-          <label>Please put any files in Dropbox or something like that and then put the link in the description</label>
+          <label for="modelFile">Upload your 3D file (.stl, .obj, .glb, .gltf):</label>
+          <input type="file" id="modelFile" accept=".stl,.obj,.glb,.gltf" onchange="previewModel(event)">
         </div>
+
+        <div class="model-preview" id="modelPreview">
+          <h3>Model Preview:</h3>
+          <model-viewer id="viewer" camera-controls auto-rotate></model-viewer>
+        </div>
+        <!-- 🔼 END NEW SECTION -->
 
         <button type="submit">Submit</button>
       </form>
@@ -100,12 +108,29 @@
   </section>
 </main>
 
-<!-- Footer -->
 <footer>
   <div class="container">
     <p>&copy; 2025 R&T's Custom 3D Printing. All rights reserved.</p>
   </div>
 </footer>
+
 <script src="menu.js"></script>
+
+<script>
+function previewModel(event) {
+  const file = event.target.files[0];
+  const preview = document.getElementById('modelPreview');
+  const viewer = document.getElementById('viewer');
+
+  if (!file) return;
+
+  // Create blob URL and show model-viewer
+  const url = URL.createObjectURL(file);
+  viewer.src = url;
+  preview.style.display = 'block';
+}
+
+// Keep your existing sendMail() logic in mail.js
+</script>
 </body>
 </html>
