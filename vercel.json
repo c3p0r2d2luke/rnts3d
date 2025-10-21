@@ -1,7 +1,8 @@
 {
+    "version": 2,
     "functions": {
       "api/*.js": {
-        "runtime": "edge"
+        "runtime": "nodejs20.x"
       }
     },
     "buildCommand": "npm run build",
