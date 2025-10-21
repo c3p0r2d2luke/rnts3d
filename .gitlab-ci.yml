@@ -1,0 +1,28 @@
+image: node:20
+
+stages:
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - npm ci
+
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - .
+
+deploy:
+  stage: deploy
+  script:
+    - npm install -g vercel
+    - vercel deploy --prod --token=$VERCEL_TOKEN --yes
+  only:
+    - main

@@ -1,0 +1,13 @@
+{
+    "name": "rnts3d",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+      "build": "echo 'nothing to build' ",
+      "start": "vercel dev"
+    },
+    "dependencies": {
+      "@vercel/blob": "^0.24.0"
+    }
+  }
+  

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:sans-serif;text-align:center;padding:2rem;">
+  <h2>Upload a 3D file to Vercel Blobs</h2>
+  <input type="file" id="modelFile" accept=".stl,.obj,.glb,.gltf" />
+  <button onclick="upload()">Upload</button>
+  <p id="status"></p>
+
+  <script>
+    async function upload() {
+      const file = document.getElementById("modelFile").files[0];
+      if (!file) return alert("Pick a file first!");
+
+      const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+        method: "PUT",
+        body: file
+      });
+      const blob = await res.json();
+      document.getElementById("status").innerHTML =
+        `✅ Uploaded! <a href="${blob.url}" target="_blank">${blob.url}</a>`;
+    }
+  </script>
+</body>
+</html>
