@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Studio settings | RNTS 3D</title><link rel="stylesheet" href="styles.css?v=5"><link rel="icon" href="images/logo.ico" type="image/x-icon"></head>
+<body>
+  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><span class="brand-mark">R</span><span>NTS<span class="brand-muted">3D</span></span></a><nav aria-label="Main navigation"><button class="menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button><ul id="menu"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Work</a></li><li><a class="nav-cta" href="contact.html">Get a quote</a></li></ul></nav></div></header>
+  <main class="container admin-page">
+    <p class="eyebrow">STUDIO CONTROL ROOM</p><h1>Quote settings</h1><p class="lede">Manage the colors and pricing customers see in the quote builder. Changes are saved to the shared backend.</p>
+    <div class="admin-warning"><strong>Private page</strong><span>Enter the admin password configured in the server’s <code>.env</code> file to save changes.</span></div>
+    <section id="admin-login" class="admin-login admin-card">
+      <div class="admin-login-icon">⌘</div>
+      <div><h2>Private studio settings</h2><p>Enter the admin password to unlock pricing and color controls.</p></div>
+      <form id="admin-login-form"><label>Password<input id="admin-password-login" type="password" autocomplete="current-password" required></label><button class="button button-primary" type="submit">Unlock settings <span>→</span></button><p id="admin-login-status" class="form-status" role="status"></p></form>
+    </section>
+    <form id="admin-form" class="admin-card hidden">
+      <div class="admin-grid"><label>Markup percentage<input id="markup" type="number" min="0" step="1" required><small>Applied after time and base costs.</small></label><label>Base job fee ($)<input id="base-price" type="number" min="0" step=".01" required><small>Minimum setup or handling fee.</small></label><label>Print rate ($/hour)<input id="hourly-rate" type="number" min="0" step=".01" required><small>Used with the model time estimate.</small></label></div>
+      <div class="admin-section-heading"><div><h2>Available colors</h2><p>Add a color or set a surcharge for special filament.</p></div><button type="button" id="add-color" class="button button-secondary">+ Add color</button></div>
+      <div id="color-rows"></div>
+      <button class="button button-primary" type="submit">Save settings</button><p id="admin-status" class="form-status" role="status"></p>
+    </form>
+  </main>
+  <script src="menu.js"></script><script src="admin.js"></script>
+</body>
+</html>

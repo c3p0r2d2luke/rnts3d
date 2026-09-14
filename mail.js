@@ -1,37 +1,33 @@
-(function(){
-    emailjs.init("Sy9xnveExMIv1B0rA");
-  })();
-  
-  function selectColor(el, color) {
-    document.querySelectorAll(".color-option").forEach(opt => opt.classList.remove("selected"));
-    el.classList.add("selected");
-    document.getElementById("user_color").value = color;
-    document.getElementById("selected-color-text").innerText = "You selected: " + color;
-  }
-  
-  async function sendMail(e) {
-    e.preventDefault();
-    const form = e.target;
-  
-    // ✅ Show status here instead
-    document.getElementById("form-status").innerText = "📤 Sending...";
-  
-    // Send both emails independently
-    const mainEmail = emailjs.sendForm("service_8abmpmo", "template_jkvewo2", form)
-      .catch(err => console.warn("Main email failed:", err));
-  
-    const confirmationEmail = emailjs.send("service_8abmpmo", "template_95v5ltl", {
-      user_email: form.user_email.value,
-      user_name: form.user_name.value
-    }).catch(err => console.warn("Confirmation email failed:", err));
-  
-    // Wait for both to finish
-    await Promise.all([mainEmail, confirmationEmail]);
-  
-    // Always show success to the user
-    document.getElementById("form-status").innerText = "✅ Request sent! Check your email for confirmation.";
+async function sendMail(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const status = document.getElementById("form-status");
+  if (!form.reportValidity()) return;
+  status.textContent = "Sending your request…";
+  status.className = "form-status";
+
+  try {
+    const payload = Object.fromEntries(new FormData(form).entries());
+    const file = document.getElementById("modelFile").files[0];
+    payload.model_file = file ? file.name : "";
+    payload.model_size = file ? `${(file.size / 1024 / 1024).toFixed(2)} MB` : "";
+    const response = await fetch("/api/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error("Quote request was rejected");
+    status.textContent = "Request sent. We’ll be in touch soon.";
+    status.className = "form-status success";
     form.reset();
-    document.querySelectorAll(".color-option").forEach(opt => opt.classList.remove("selected"));
-    document.getElementById("selected-color-text").innerText = "";
+    document.getElementById("user_color").value = "";
+    document.querySelectorAll(".color-option").forEach((option) => option.classList.remove("selected"));
+    document.getElementById("selected-color-text").textContent = "Select a color to continue.";
+  } catch (error) {
+    console.error("Quote request failed", error);
+    status.textContent = "We couldn’t send that just now. Please email us directly or try again.";
+    status.className = "form-status error";
   }
-  
+}
+
+document.getElementById("custom-form")?.addEventListener("submit", sendMail);

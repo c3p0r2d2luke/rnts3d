@@ -1,118 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="X-Frame-Options" content="DENY">
-  <link rel="canonical" href="https://rnts3d.vercel.app/contact.html" >
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RNTS Custom 3D Printing</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Get a fast estimate for your custom 3D print from RNTS.">
+  <title>Build your quote | RNTS 3D</title>
   <link rel="icon" href="images/logo.ico" type="image/x-icon">
-
-  <!-- EmailJS SDK -->
+  <link rel="stylesheet" href="styles.css?v=5">
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script src="mail.js"></script>
-
-  <style>
-    .model-preview {
-      display: none;
-      margin-top: 20px;
-      text-align: center;
-    }
-    model-viewer {
-      width: 300px;
-      height: 300px;
-      background-color: #f3f3f3;
-      border-radius: 10px;
-      margin: auto;
-    }
-  </style>
 </head>
-
 <body>
-<header>
-  <div class="container">
-    <h1>RNTS Custom 3D Printing</h1>
-    <nav>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
-      <ul id="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="faq.html">FAQs</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><span class="brand-mark">R</span><span>NTS<span class="brand-muted">3D</span></span></a><nav aria-label="Main navigation"><button class="menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button><ul id="menu"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Work</a></li><li><a class="nav-cta" href="contact.html">Get a quote</a></li></ul></nav></div></header>
 
-<main>
-  <section class="contact">
-    <div class="container">
-      <h2>Custom Print Request</h2>
-      <p>Fill out the form with your details and we’ll get back to you.</p>
+  <main class="quote-page">
+    <section class="container quote-intro">
+      <p class="eyebrow">CUSTOM PRINT BUILDER</p>
+      <h1>Turn your file into a <span class="text-gradient">real object.</span></h1>
+      <p class="lede">Upload a model for an instant planning estimate, choose your finish, and send the details straight to our team.</p>
+    </section>
 
-      <form id="custom-form" onsubmit="sendMail(event)">
-        <div class="form-group">
-          <label for="name">Your Name:</label>
-          <input type="text" id="name" name="user_name" required>
+    <section class="container quote-layout">
+      <form id="custom-form" class="quote-card" novalidate>
+        <div class="step-heading"><span>01</span><div><h2>Your details</h2><p>So we know where to send your quote.</p></div></div>
+        <div class="field-grid">
+          <label>Full name<input type="text" name="user_name" autocomplete="name" required placeholder="Alex Morgan"></label>
+          <label>Email address<input type="email" name="user_email" autocomplete="email" required placeholder="alex@example.com"></label>
         </div>
 
-        <div class="form-group">
-          <label>Choose a Color:</label>
-          <div class="color-picker">
-            <div class="color-option" onclick="selectColor(this, 'Black')">
-              <img src="https://dummyimage.com/70x70/000000/000000.png" alt="Black">
-            </div>
-            <div class="color-option" onclick="selectColor(this, 'White')">
-              <img src="https://dummyimage.com/70x70/ffffff/ffffff.png" alt="White">
-            </div>
-            <div class="color-option" onclick="selectColor(this, 'Orange')">
-              <img src="https://dummyimage.com/70x70/FFA500/FFA500.png" alt="Orange">
-            </div>
-          </div>
-          <p id="selected-color-text"></p>
-          <input type="hidden" id="user_color" name="user_color" required>
-        </div>
+        <div class="step-heading"><span>02</span><div><h2>Choose a color</h2><p>Color availability and surcharges are set by the studio.</p></div></div>
+        <div id="color-picker" class="color-picker" role="radiogroup" aria-label="Available colors"></div>
+        <input type="hidden" id="user_color" name="user_color" required>
+        <p id="selected-color-text" class="selection-note">Select a color to continue.</p>
 
-        <div class="form-group">
-          <label for="request">What do you want printed?</label>
-          <textarea id="request" name="user_request" rows="5" required></textarea>
-        </div>
+        <div class="step-heading"><span>03</span><div><h2>Upload your model</h2><p>STL and OBJ files get a local complexity estimate. Final print time is confirmed after a real slicer review.</p></div></div>
+        <label class="drop-zone" for="modelFile"><span class="upload-icon">↥</span><strong>Drop a 3D file here or browse</strong><small>STL, OBJ, 3MF, GLB, GLTF, PLY, FBX · up to 100 MB</small><input type="file" id="modelFile" name="model_file" accept=".stl,.obj,.3mf,.glb,.gltf,.ply,.fbx"></label>
+        <div id="file-summary" class="file-summary hidden" aria-live="polite"></div>
+        <input type="hidden" id="model-estimate" name="model_estimate">
 
-        <div class="form-group">
-          <label for="email">Your Email:</label>
-          <input type="email" id="email" name="user_email" required>
-        </div>
-
-<div>
-  <label>Please put in a dropbox link if you have a model already</label>
-</div>
-
-        <!-- 🔽 NEW 3D FILE UPLOAD SECTION -->
-        <!--<div class="form-group">
-          <label for="modelFile">Upload your 3D file (.stl, .obj, .glb, .gltf):</label>
-          <input type="file" id="modelFile" accept=".stl,.obj,.glb,.gltf" onchange="previewModel(event)">
-        </div>-->
-        <!-- 🔼 END NEW SECTION -->
-
-        <button type="submit">Submit</button>
+        <label class="full-field">Tell us about the print<textarea name="user_request" rows="4" required placeholder="Size, quantity, deadline, or anything else we should know..."></textarea></label>
+        <label class="check-row"><input type="checkbox" name="terms" required> <span>I understand this is a planning estimate and the final quote is confirmed after review.</span></label>
+        <button class="button button-primary full-button" type="submit">Send my quote request <span>→</span></button>
+        <p id="form-status" class="form-status" role="status"></p>
       </form>
 
-      <p id="form-status"></p>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="container">
-    <p>&copy; 2025 R&T's Custom 3D Printing. All rights reserved.</p>
-  </div>
-</footer>
-
-<script src="menu.js"></script>
-
+      <aside class="estimate-card">
+        <div class="estimate-top"><p class="eyebrow">LIVE ESTIMATE</p><span class="estimate-dot"></span></div>
+        <div class="estimate-total" id="estimate-total">$0.00</div>
+        <p class="estimate-caption">Estimated starting price</p>
+        <div class="estimate-lines"><div><span>Print time</span><strong id="estimate-time">Upload a model</strong></div><div><span>Color adjustment</span><strong id="estimate-color">$0.00</strong></div><div><span>Pricing basis</span><strong id="estimate-basis">Pending model</strong></div></div>
+        <div class="estimate-note"><span>✦</span><p>We review every file before production to confirm the fit, finish, and final price.</p></div>
+      </aside>
+    </section>
+  </main>
+  <footer><div class="container footer-wrap"><p>© 2025 RNTS 3D. Made for ideas worth making.</p><a href="admin.html">Studio admin</a></div></footer>
+  <script src="menu.js"></script><script src="quote.js"></script><script src="mail.js"></script>
 </body>
 </html>

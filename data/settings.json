@@ -1,0 +1,12 @@
+{
+  "markup": 35,
+  "basePrice": 8,
+  "hourlyRate": 4.5,
+  "colors": [
+    {
+      "name": "White",
+      "hex": "#ffffff",
+      "surcharge": 20
+    }
+  ]
+}
