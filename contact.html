@@ -32,12 +32,12 @@
         <input type="hidden" id="user_color" name="user_color" required>
         <p id="selected-color-text" class="selection-note">Select a color to continue.</p>
 
-        <div class="step-heading"><span>03</span><div><h2>Upload your model</h2><p>STL and OBJ files get a local complexity estimate. Final print time is confirmed after a real slicer review.</p></div></div>
+        <div class="step-heading"><span>03</span><div><h2>Share your idea</h2><p>Upload a model for an estimate, describe what you need, or do both.</p></div></div>
         <label class="drop-zone" for="modelFile"><span class="upload-icon">↥</span><strong>Drop a 3D file here or browse</strong><small>STL, OBJ, 3MF, GLB, GLTF, PLY, FBX · up to 100 MB</small><input type="file" id="modelFile" name="model_file" accept=".stl,.obj,.3mf,.glb,.gltf,.ply,.fbx"></label>
         <div id="file-summary" class="file-summary hidden" aria-live="polite"></div>
         <input type="hidden" id="model-estimate" name="model_estimate">
 
-        <label class="full-field">Tell us about the print<textarea name="user_request" rows="4" required placeholder="Size, quantity, deadline, or anything else we should know..."></textarea></label>
+        <label class="full-field">Tell us about the print<textarea name="user_request" rows="4" placeholder="Describe the object, size, quantity, deadline, or anything else we should know..."></textarea></label>
         <label class="check-row"><input type="checkbox" name="terms" required> <span>I understand this is a planning estimate and the final quote is confirmed after review.</span></label>
         <button class="button button-primary full-button" type="submit">Send my quote request <span>→</span></button>
         <p id="form-status" class="form-status" role="status"></p>

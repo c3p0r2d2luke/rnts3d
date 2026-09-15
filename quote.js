@@ -25,8 +25,16 @@ function formatMoney(value) {
 }
 
 function formatTime(minutes) {
-  const hours = Math.max(1, Math.round(minutes / 60));
-  return hours < 24 ? `${hours} hr${hours === 1 ? "" : "s"}` : `${Math.floor(hours / 24)}d ${hours % 24}h`;
+  const totalMinutes = Math.max(1, Math.round(minutes));
+  if (totalMinutes < 60) return `${totalMinutes} min`;
+  const hours = Math.floor(totalMinutes / 60);
+  const remainingMinutes = totalMinutes % 60;
+  if (hours < 24) {
+    return remainingMinutes ? `${hours}h ${remainingMinutes}m` : `${hours} hr${hours === 1 ? "" : "s"}`;
+  }
+  const days = Math.floor(hours / 24);
+  const remainingHours = hours % 24;
+  return remainingHours ? `${days}d ${remainingHours}h` : `${days}d`;
 }
 
 function estimateFromFile(file) {
@@ -81,8 +89,8 @@ function renderColors(settings) {
 let currentModel = null;
 function updateTotal(settings) {
   const selected = settings.colors.find((color) => color.name === document.getElementById("user_color")?.value);
-  const minutes = currentModel?.minutes || 0;
-  const total = (settings.basePrice + minutes / 60 * settings.hourlyRate) * (1 + settings.markup / 100) + (selected?.surcharge || 0);
+  const printHours = (currentModel?.seconds || 0) / 3600;
+  const total = (settings.basePrice + printHours * settings.hourlyRate) * (1 + settings.markup / 100) + (selected?.surcharge || 0);
   document.getElementById("estimate-total").textContent = formatMoney(total);
 }
 
@@ -102,10 +110,11 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const body = new FormData();
       body.append("model", file);
+      body.append("machineId", window.quoteSettings?.defaultMachineId || window.quoteSettings?.machines?.[0]?.id || "");
       const response = await fetch("/api/slice", { method: "POST", body });
       if (!response.ok) throw new Error("Slicer unavailable");
       const sliced = await response.json();
-      currentModel = { minutes: Math.max(1, Math.round(sliced.seconds / 60)), basis: "PrusaSlicer toolpath analysis" };
+      currentModel = { seconds: Math.max(1, sliced.seconds), basis: `${sliced.machine || "Printer"} toolpath analysis` };
     } catch (error) {
       summary.textContent = "This server cannot slice models yet. Please submit the file for a manual quote.";
       currentModel = null;
@@ -115,9 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
       updateTotal(window.quoteSettings);
       return;
     }
-    document.getElementById("estimate-time").textContent = formatTime(currentModel.minutes);
+    document.getElementById("estimate-time").textContent = formatTime(currentModel.seconds / 60);
     document.getElementById("estimate-basis").textContent = currentModel.basis;
-    document.getElementById("model-estimate").value = `${formatTime(currentModel.minutes)} · ${currentModel.basis}`;
+    document.getElementById("model-estimate").value = `${formatTime(currentModel.seconds / 60)} · ${currentModel.basis}`;
     summary.innerHTML = `<strong>${file.name}</strong><span>${(file.size / 1024 / 1024).toFixed(2)} MB · ${currentModel.basis}</span>`;
     getSettings().then((settings) => {
       window.quoteSettings = settings;

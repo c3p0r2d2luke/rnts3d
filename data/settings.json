@@ -1,12 +1,49 @@
 {
   "markup": 35,
-  "basePrice": 8,
+  "basePrice": 5,
   "hourlyRate": 4.5,
   "colors": [
     {
-      "name": "White",
+      "name": "White (PLA)",
       "hex": "#ffffff",
       "surcharge": 20
+    }
+  ],
+  "defaultMachineId": "a1-mini",
+  "machines": [
+    {
+      "id": "a1-mini",
+      "name": "A1 Mini",
+      "material": "PLA",
+      "width": 180,
+      "depth": 180,
+      "height": 180,
+      "nozzleDiameter": 0.4,
+      "layerHeight": 0.2,
+      "infill": 15,
+      "perimeters": 3,
+      "printSpeed": 60,
+      "travelSpeed": 120,
+      "nozzleTemperature": 200,
+      "bedTemperature": 60,
+      "active": true
+    },
+    {
+      "id": "printer-1789416813487",
+      "name": "Anycubic Chiron",
+      "material": "PLA",
+      "width": 400,
+      "depth": 400,
+      "height": 450,
+      "nozzleDiameter": 0.4,
+      "layerHeight": 0.2,
+      "infill": 15,
+      "perimeters": 3,
+      "printSpeed": 60,
+      "travelSpeed": 120,
+      "nozzleTemperature": 205,
+      "bedTemperature": 60,
+      "active": false
     }
   ]
 }

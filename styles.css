@@ -353,6 +353,31 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px
 .color-row input[type="color"] { height: 45px; padding: 3px; }
 .color-row label { font-size: 11px; }
 .remove-color { height: 38px; border: 0; border-radius: 7px; color: #b2392d; background: #fff0ed; font-size: 20px; }
+.machine-list { display: grid; gap: 16px; }
+.machine-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fafafa;
+}
+.machine-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.active-machine-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.active-machine-toggle input { width: auto; }
+.machine-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.machine-card input, .machine-card select { background: #fff; }
+.remove-machine { border: 1px solid var(--line); background: #fff; color: var(--ink); }
 
 /* Inner pages */
 .inner-page { padding: 88px 0 112px; }

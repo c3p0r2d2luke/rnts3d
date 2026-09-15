@@ -13,8 +13,13 @@
     </section>
     <form id="admin-form" class="admin-card hidden">
       <div class="admin-grid"><label>Markup percentage<input id="markup" type="number" min="0" step="1" required><small>Applied after time and base costs.</small></label><label>Base job fee ($)<input id="base-price" type="number" min="0" step=".01" required><small>Minimum setup or handling fee.</small></label><label>Print rate ($/hour)<input id="hourly-rate" type="number" min="0" step=".01" required><small>Used with the model time estimate.</small></label></div>
+
       <div class="admin-section-heading"><div><h2>Available colors</h2><p>Add a color or set a surcharge for special filament.</p></div><button type="button" id="add-color" class="button button-secondary">+ Add color</button></div>
       <div id="color-rows"></div>
+
+      <div class="admin-section-heading"><div><h2>Printer profiles</h2><p>Manage your print devices, build volume, materials, and slicer settings.</p></div><button type="button" id="add-machine" class="button button-secondary">+ Add printer</button></div>
+      <div id="machine-list" class="machine-list"></div>
+
       <button class="button button-primary" type="submit">Save settings</button><p id="admin-status" class="form-status" role="status"></p>
     </form>
   </main>
